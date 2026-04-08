@@ -1,0 +1,49 @@
+#### MLP - Sieć rozwiązująca XOR ####
+
+#### 1] Konstrukcja MLP ####
+
+# Dane wejściowe
+x1 = 1
+x2 = 0
+
+# --- Warstwa ukryta (2 neurony) ---
+
+# Neuron H1: wykrywa (x1=1 LUB x2=1)
+wagi_h1 = [1, 1]
+bias_h1 = -0.5
+
+# Neuron H2: wykrywa (x1=1 I x2=1)
+wagi_h2 = [1, 1]
+bias_h2 = -1.5
+
+# --- Warstwa wyjściowa (1 neuron) ---
+
+# Neuron Y: wykrywa (H1=1 I H2=0), czyli XOR
+wagi_y = [1, -2]
+bias_y = -0.5
+
+# Definicja funkcji aktywacji - funkcja progowa
+def Funkcja_Progowa(suma, bias):
+    if suma + bias >= 0:
+        return 1
+    else:
+        return 0
+
+# --- Obliczenia w przód (forward pass) ---
+
+inputs = [x1, x2]
+
+# Warstwa ukryta
+suma_h1 = inputs[0] * wagi_h1[0] + inputs[1] * wagi_h1[1]
+suma_h2 = inputs[0] * wagi_h2[0] + inputs[1] * wagi_h2[1]
+
+h1 = Funkcja_Progowa(suma_h1, bias_h1)
+h2 = Funkcja_Progowa(suma_h2, bias_h2)
+
+# Warstwa wyjściowa
+suma_y = h1 * wagi_y[0] + h2 * wagi_y[1]
+output = Funkcja_Progowa(suma_y, bias_y)
+
+print(f"Wejście: x1={x1}, x2={x2}")
+print(f"Warstwa ukryta: H1={h1}, H2={h2}")
+print(f"Wynik (XOR): {output}")
