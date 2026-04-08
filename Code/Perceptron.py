@@ -30,13 +30,27 @@ output = Funkcja_Progowa(suma)
 
 # Dane treningowe: [wejscia, oczekiwany wynik]
 dane_treningowe = [
-    ([1, 0, 1], 1),
-    ([0, 0, 1], 0),
-    ([1, 1, 0], 1),
-    ([0, 1, 0], 0),
+    ([0, 0], 0),
+    ([0, 1], 1),
+    ([1, 0], 1),
+    ([1, 1], 0),
 ]
 
-wagi  = [0.0, 0.0, 0.0]  # zaczynamy od zerowych wag
+dane_treningowe = [
+    ([1, 0.5],  0),
+    ([0.5, 1],  0),
+    ([1, 2],    0),
+    ([1.5, 2],  0),
+    ([2, 3],    0),
+    
+    ([2, 0.5],  1),
+    ([3, 1],    1),
+    ([4, 1],    1),
+    ([3.5, 2],  1),
+    ([4, 3],    1),
+]
+
+wagi  = [0.0, 0.0]  # zaczynamy od zerowych wag
 bias  = 0.0
 wspolczynnik_uczenia = 0.1
 epoki = 10
