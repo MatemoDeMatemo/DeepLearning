@@ -59,3 +59,18 @@ print("\nSOFTMAX OUTPUT:")
 print(Y)
 
 print("\nDECYZJA: klasa", Y.index(max(Y)) + 1)
+
+
+### BONUS - Mnozenie macierzy z Python ###
+
+# import numpy as np
+#
+# W1 = np.array([
+#     [1.5028, -0.7856],
+#     [-0.0159, -0.0482]
+# ])
+#
+# X = np.array([[8], [9]])
+#
+# wynik = W1 @ X   # operator @ to mnożenie macierzy
+# print(wynik)
