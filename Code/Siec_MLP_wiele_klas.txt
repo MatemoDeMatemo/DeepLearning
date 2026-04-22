@@ -1,100 +1,61 @@
-#### 1] Dane wejściowe (wektor = macierz kolumnowa) ####
+import math
 
-X = [
-    [2],
-    [5]
-]
-
-
-#### 2] Warstwa ukryta (W1 * X + b1) ####
-
+#### Wagi po treningu (wklejasz tutaj wyniki z kodu treningowego) ####
 W1 = [
     [0.5, -0.3],
     [0.8,  0.2]
 ]
-
-B1 = [
-    [0.1],
-    [-0.2]
-]
-
-
-#### Funkcja mnożenia macierzy przez wektor ####
-def matmul(W, X):
-    wynik = []
-    for i in range(len(W)):
-        suma = 0
-        for j in range(len(X)):
-            suma += W[i][j] * X[j][0]
-        wynik.append([suma])
-    return wynik
-
-
-#### Dodawanie biasu ####
-def add_bias(Z, B):
-    wynik = []
-    for i in range(len(Z)):
-        wynik.append([Z[i][0] + B[i][0]])
-    return wynik
-
-
-#### Warstwa ukryta ####
-
-H_lin = matmul(W1, X)      # W1 * X
-H = add_bias(H_lin, B1)    # + B1
-
-
-#### 3] Warstwa wyjściowa (W2 * H + b2) ####
+B1 = [[0.1], [-0.2]]
 
 W2 = [
     [0.7, -0.5],
     [0.2,  0.9],
     [-0.3, 0.4]
 ]
+B2 = [[0.05], [-0.1], [0.2]]
 
-B2 = [
-    [0.05],
-    [-0.1],
-    [0.2]
-]
+#### Dane wejściowe (płaska lista, tak jak w treningu) ####
+X = [2, 5]
 
+#### Funkcje (identyczne jak w treningu) ####
+def matmul(W, X):
+    return [sum(W[i][j]*X[j] for j in range(len(X))) for i in range(len(W))]
 
-Z_lin = matmul(W2, H)
-Z = add_bias(Z_lin, B2)
+def add_bias(Z, B):
+    return [Z[i] + B[i][0] for i in range(len(Z))]
 
-
-#### 4] Softmax ####
-
-import math
+def relu(Z):
+    return [z if z > 0 else 0 for z in Z]    # ReLU
 
 def softmax(Z):
-    max_z = max([z[0] for z in Z])
+    max_z = max(Z)
+    exp_vals = [math.exp(z - max_z) for z in Z]
+    s = sum(exp_vals)
+    return [e/s for e in exp_vals]
 
-    exp_vals = []
-    for i in range(len(Z)):
-        exp_vals.append(math.exp(Z[i][0] - max_z))
-    
-    suma = sum(exp_vals)
+#### Forward pass — krok po kroku ####
+H_lin  = matmul(W1, X)
+H_bias = add_bias(H_lin, B1)
+H      = relu(H_bias)
 
-    wynik = []
-    for i in range(len(exp_vals)):
-        wynik.append(exp_vals[i] / suma)
-    
-    return wynik
+Z_lin  = matmul(W2, H)
+Z      = add_bias(Z_lin, B2)
+Y      = softmax(Z)
 
-
-Y = softmax(Z)
-
-#### 5] Output ####
-
+#### Output ####
 print("WEJŚCIE X:")
 print(X)
 
-print("\nWARSTWA UKRYTA H = W1·X + B1:")
+print("\nWARSTWA UKRYTA (przed aktywacją):")
+print(H_bias)
+
+print("\nWARSTWA UKRYTA (po Leaky ReLU):")
 print(H)
 
-print("\nLOGITY Z = W2·H + B2:")
+print("\nLOGITY Z:")
 print(Z)
 
 print("\nSOFTMAX OUTPUT:")
 print(Y)
+
+print("\nDECYZJA: klasa", Y.index(max(Y)) + 1)
