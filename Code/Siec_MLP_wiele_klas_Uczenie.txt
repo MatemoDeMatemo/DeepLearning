@@ -55,7 +55,7 @@ def add_bias(Z, B):
     return [Z[i] + B[i][0] for i in range(len(Z))]
 
 def relu(Z):
-    return [z if z > 0 else 0.01*z for z in Z]
+    return [z if z > 0 else 0 for z in Z]
 
 def softmax(Z):
     max_z = max(Z)
@@ -93,7 +93,7 @@ for epoch in range(epochs):
         dB2 = [[dZ[i]] for i in range(3)]
 
         dH = [sum(dZ[i]*W2[i][j] for i in range(3)) for j in range(2)]
-        dH = [dH[j] if H[j] > 0 else 0.01*dH[j] for j in range(2)]
+        dH = [dH[j] if H[j] > 0 else 0 for j in range(2)]
 
         dW1 = [[dH[i]*X[j] for j in range(2)] for i in range(2)]
         dB1 = [[dH[i]] for i in range(2)]
