@@ -70,7 +70,10 @@ print("\nDECYZJA: klasa", Y.index(max(Y)) + 1)
 #     [-0.0159, -0.0482]
 # ])
 #
-# X = np.array([[8], [9]])
+# X = np.array([
+#                [8], 
+#                [9]
+#])
 #
 # wynik = W1 @ X   # operator @ to mnożenie macierzy
 # print(wynik)
