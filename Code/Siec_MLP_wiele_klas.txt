@@ -68,9 +68,11 @@ Z = add_bias(Z_lin, B2)
 import math
 
 def softmax(Z):
+    max_z = max([z[0] for z in Z])
+
     exp_vals = []
     for i in range(len(Z)):
-        exp_vals.append(math.exp(Z[i][0]))
+        exp_vals.append(math.exp(Z[i][0] - max_z))
     
     suma = sum(exp_vals)
 
@@ -82,7 +84,6 @@ def softmax(Z):
 
 
 Y = softmax(Z)
-
 
 #### 5] Output ####
 
