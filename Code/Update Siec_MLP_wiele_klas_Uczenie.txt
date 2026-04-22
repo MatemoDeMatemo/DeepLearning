@@ -1,0 +1,142 @@
+import math
+import random
+
+random.seed(0)
+#### Dane ####
+
+X_data = [
+    [10,2], [0,10], [6,5], [8,1],
+    [8,3], [1,9], [5,7], [8,4],
+    [9,1], [1,8]
+]
+
+Y_data = [
+    [1,0,0],
+    [0,1,0],
+    [0,0,1],
+    [1,0,0],
+    [1,0,0],
+    [0,1,0],
+    [0,0,1],
+    [1,0,0],
+    [1,0,0],
+    [0,1,0]
+]
+
+#### Inicjalizacja ####
+
+def rand():
+    return random.uniform(-0.1, 0.1)
+
+W1 = [
+    [rand(), rand()],
+    [rand(), rand()]
+]
+
+B1 = [[0.0],[0.0]]
+
+W2 = [
+    [rand(), rand()],
+    [rand(), rand()],
+    [rand(), rand()]
+]
+
+B2 = [[0.0],[0.0],[0.0]]
+
+LR = 0.01
+
+
+#### Funkcje ####
+
+def matmul(W, X):
+    return [sum(W[i][j]*X[j] for j in range(len(X))) for i in range(len(W))]
+
+def add_bias(Z, B):
+    return [Z[i] + B[i][0] for i in range(len(Z))]
+
+def relu(Z):
+    return [z if z > 0 else 0.01*z for z in Z]
+
+def softmax(Z):
+    max_z = max(Z)
+    exp_vals = [math.exp(z - max_z) for z in Z]
+    s = sum(exp_vals)
+    return [e/s for e in exp_vals]
+
+def cross_entropy(y_pred, y_true):
+    return -sum(y_true[i] * math.log(y_pred[i] + 1e-9) for i in range(len(y_pred)))
+
+
+#### Trening ####
+
+epochs = 300
+
+for epoch in range(epochs):
+    total_loss = 0
+
+    for idx in range(len(X_data)):
+        X = X_data[idx]
+        Y_true = Y_data[idx]
+
+        #### FORWARD ####
+        H = relu(add_bias(matmul(W1, X), B1))
+        Z = add_bias(matmul(W2, H), B2)
+        Y_pred = softmax(Z)
+
+        total_loss += cross_entropy(Y_pred, Y_true)
+
+        #### BACKPROP ####
+
+        dZ = [Y_pred[i] - Y_true[i] for i in range(3)]
+
+        dW2 = [[dZ[i]*H[j] for j in range(2)] for i in range(3)]
+        dB2 = [[dZ[i]] for i in range(3)]
+
+        dH = [sum(dZ[i]*W2[i][j] for i in range(3)) for j in range(2)]
+        dH = [dH[j] if H[j] > 0 else 0.01*dH[j] for j in range(2)]
+
+        dW1 = [[dH[i]*X[j] for j in range(2)] for i in range(2)]
+        dB1 = [[dH[i]] for i in range(2)]
+
+        #### UPDATE ####
+
+        for i in range(3):
+            for j in range(2):
+                W2[i][j] -= LR * dW2[i][j]
+            B2[i][0] -= LR * dB2[i][0]
+
+        for i in range(2):
+            for j in range(2):
+                W1[i][j] -= LR * dW1[i][j]
+            B1[i][0] -= LR * dB1[i][0]
+
+    if epoch % 50 == 0:
+        print(f"Epoch {epoch}, Loss: {total_loss:.4f}")
+
+
+#### Test ####
+
+print("\nTEST:")
+for x in X_data:
+    H = relu(add_bias(matmul(W1, x), B1))
+    Z = add_bias(matmul(W2, H), B2)
+    Y = softmax(Z)
+    print(x, "->", Y)
+    
+print("\n=== FINALNE WAGI ===")
+
+print("\nW1 =")
+for row in W1:
+    print(row)
+
+print("\nB1 =")
+for row in B1:
+    print(row)
+
+print("\nW2 =")
+for row in W2:
+    print(row)
+
+print("\nB2 =")
+for row in B2:
+    print(row)
