@@ -49,7 +49,7 @@ print(X)
 print("\nWARSTWA UKRYTA (przed aktywacją):")
 print(H_bias)
 
-print("\nWARSTWA UKRYTA (po Leaky ReLU):")
+print("\nWARSTWA UKRYTA (po ReLU):")
 print(H)
 
 print("\nLOGITY Z:")
