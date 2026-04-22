@@ -4,12 +4,14 @@ import random
 random.seed(0)
 #### Dane ####
 
+# Input - np. wyniki z 2 egzaminow (z wiedzy biologiczne i informatycznej)
 X_data = [
     [10,2], [0,10], [6,5], [8,1],
     [8,3], [1,9], [5,7], [8,4],
     [9,1], [1,8]
 ]
 
+# Etykiety - klasa danego wyniku (kierunek studiow: biologia, informatyka, bioinformatyka)
 Y_data = [
     [1,0,0],
     [0,1,0],
