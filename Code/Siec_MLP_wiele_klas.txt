@@ -14,10 +14,10 @@ W2 = [
 ]
 B2 = [[0.05], [-0.1], [0.2]]
 
-#### Dane wejściowe (płaska lista, tak jak w treningu) ####
+#### Dane wejściowe ####
 X = [2, 5]
 
-#### Funkcje (identyczne jak w treningu) ####
+#### Funkcje  ####
 def matmul(W, X):
     return [sum(W[i][j]*X[j] for j in range(len(X))) for i in range(len(W))]
 
