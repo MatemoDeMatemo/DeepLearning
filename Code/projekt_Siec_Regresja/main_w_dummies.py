@@ -1,4 +1,3 @@
-
 import pandas as pd # do tworzenia data frame
 from sklearn.model_selection import train_test_split # pip install scikit-learn
 from sklearn.preprocessing import StandardScaler # do skalowania danych
